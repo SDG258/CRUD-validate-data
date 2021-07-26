@@ -5,8 +5,7 @@ function findAll() {
 }
 
 async function findById(id) {
-    const rows = await db('actor').where('actor_id', id);
-    
+    const rows = await db('actor').where('actor_id', id) .orderBy('actor_id');
     if(rows.lenght === 0) {
         return  null;
     }
