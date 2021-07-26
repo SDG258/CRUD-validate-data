@@ -29,6 +29,7 @@
                 <div class="card shadow">
                     <h4 class="card-header d-flex justify-content-between">
                         Customer list form Sakila API
+                        <div id="customer-modal"></div>
                         <a class="btn btn-primary" href="addCustomer.html" role="button">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             Add Customer
@@ -55,12 +56,76 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
         </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        function updateCustomer(id) {
+            const tr =
+                `<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmUpdateCustomer">
+                            <input type="text" class="form-control" id="customer_id" value="${id}" hidden>
+                            <div class="mb-3">
+                                <label for="txtStore_id" class="form-label">Store Id</label>
+                                <input type="text" class="form-control" id="txtStore_id" placeholder="1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtFirst_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="txtFirst_name" placeholder="Nguyen">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtLast_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="txtLast_name" placeholder="Song Du">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="txtEmail"
+                                    placeholder="20424015@student.hcmus.edu.vn">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtAddress_id" class="form-label">Address Id</label>
+                                <input type="text" class="form-control" id="txtAddress_id" placeholder="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+                </div>`
+            $('#customer-modal').append(tr);
+        }
 
         function deleteCustomer(id) {
             $.ajax({
@@ -70,7 +135,34 @@
                 alert("DELETE CUSTOMER SUCCESSFULLY");
             })
         }
-        
+
+        $('#frmAddActor').on('submit', function (e) {
+            e.preventDefault();
+
+            const actor = {
+                "customer_id": +(txtCustomer_id).val(),
+                "store_id": +$('#txtStore_id').val(),
+                "first_name": $('#txtFirst_name').val(),
+                "last_name": $('#txtLast_name').val(),
+                "email": $('#txtEmail').val(),
+                "address_id": +$('#txtAddress_id').val()
+            }
+
+            const jsonToPost = JSON.stringify(actor);
+
+            $.ajax({
+                url: 'http://localhost:3000/api/customers',
+                type: 'PATCH',
+                data: jsonToPost,
+                dataType: 'json',
+                contentType: 'application/json'
+            }).done(function (res) {
+                alert('Customer updated');
+            }).fail(function (err) {
+                alert(err.responseText);
+            })
+        })
+
         $('#btnLoad').on('click', function () {
             $.ajax({
                 url: 'http://localhost:3000/api/customers',
@@ -84,8 +176,10 @@
                                     <td>${c.email}</td>
                                     <td>${c.create_date}</td>
                                     <td>@${c.last_update}</td>
-                                    <td><button id="btnEdit" class="btn btn-outline-primary btn-lg" type="button" value="${c.customer_id}">Edit</button>
-                                        <button onclick="deleteCustomer(c.customer_id)" class="btn btn-outline-danger btn-lg" type="button">Delete</button>
+                                    primary
+                                    <td>
+                                        <button onclick="updateCustomer(c.customer_id)" class="btn btn-outline-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
+                                        <button onclick="deleteCustomer(c.customer_id)" class="btn btn-outline-danger btn-lg" type="button">Del</button>
                                     </td>
                                 </tr>`;
                     $('#actor-container').append(tr);

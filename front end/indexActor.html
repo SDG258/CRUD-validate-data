@@ -61,13 +61,12 @@
     <script>
         function deleteActor(id) {
             $.ajax({
-                url: `http://localhost:3000/api/customers/${id}`,
+                url: `http://localhost:3000/api/actors/${id}`,
                 type: 'DELETE'
             }).done(function (res) {
                 alert("DELETE Actor SUCCESSFULLY");
             })
         }
-
         $('#btnLoad').on('click', function () {
             $.ajax({
                 url: 'http://localhost:3000/api/actors',
@@ -82,7 +81,7 @@
                                     primary
                                     <td>
                                         <button id="btnEdit" class="btn btn-outline-primary btn-lg" type="button">Edit</button>
-                                        <button onclick="deleteActor(c.actor_id)" class="btn btn-outline-danger btn-lg" type="button">Delete</button>
+                                        <button onclick="deleteActor(a.actor_id)" class="btn btn-outline-danger btn-lg" type="button">Del</button>
                                     </td>
                                 </tr>`;
                     $('#actor-container').append(tr);
@@ -90,13 +89,6 @@
             })
         })
     </script>
-    <Script>
-        $(document).ready(function () {
-            $("#btnEdit").click(function (event) {
-                alert('Song Du');
-            });
-        });
-    </Script>
 </body>
 
 </html>
