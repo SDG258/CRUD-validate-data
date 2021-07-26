@@ -59,6 +59,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        function deleteActor(id) {
+            $.ajax({
+                url: `http://localhost:3000/api/customers/${id}`,
+                type: 'DELETE'
+            }).done(function (res) {
+                alert("DELETE Actor SUCCESSFULLY");
+            })
+        }
+
         $('#btnLoad').on('click', function () {
             $.ajax({
                 url: 'http://localhost:3000/api/actors',
@@ -70,8 +79,10 @@
                                     <td>${a.first_name}</td>
                                     <td>${a.last_name}</td>
                                     <td>@${a.last_update}</td>
-                                    <td><button id="btnEdit" class="btn btn-outline-primary btn-lg" type="button" value="${a.actor_id}">Edit</button>
-                                        <button id="btnDelete" class="btn btn-outline-danger btn-lg" type="button" value="${a.actor_id}">Delete</button>
+                                    primary
+                                    <td>
+                                        <button id="btnEdit" class="btn btn-outline-primary btn-lg" type="button">Edit</button>
+                                        <button onclick="deleteActor(c.actor_id)" class="btn btn-outline-danger btn-lg" type="button">Delete</button>
                                     </td>
                                 </tr>`;
                     $('#actor-container').append(tr);
@@ -80,13 +91,11 @@
         })
     </script>
     <Script>
-        $('#btnDelete').on('click', function () {
-
-            console.log('Song Du');
-            // var temp = $(this).val();
-
-            // alert('Song Du')
-        })
+        $(document).ready(function () {
+            $("#btnEdit").click(function (event) {
+                alert('Song Du');
+            });
+        });
     </Script>
 </body>
 

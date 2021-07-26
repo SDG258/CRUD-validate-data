@@ -61,6 +61,16 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+
+        function deleteCustomer(id) {
+            $.ajax({
+                url: `http://localhost:3000/api/customers/${id}`,
+                type: 'DELETE'
+            }).done(function (res) {
+                alert("DELETE CUSTOMER SUCCESSFULLY");
+            })
+        }
+        
         $('#btnLoad').on('click', function () {
             $.ajax({
                 url: 'http://localhost:3000/api/customers',
@@ -75,7 +85,7 @@
                                     <td>${c.create_date}</td>
                                     <td>@${c.last_update}</td>
                                     <td><button id="btnEdit" class="btn btn-outline-primary btn-lg" type="button" value="${c.customer_id}">Edit</button>
-                                        <button id="btnDelete" class="btn btn-outline-danger btn-lg" type="button" value="${c.customer_id}">Delete</button>
+                                        <button onclick="deleteCustomer(c.customer_id)" class="btn btn-outline-danger btn-lg" type="button">Delete</button>
                                     </td>
                                 </tr>`;
                     $('#actor-container').append(tr);
@@ -83,15 +93,6 @@
             })
         })
     </script>
-    <Script>
-        $('#btnDelete').on('click', function () {
-
-            console.log('Song Du');
-            // var temp = $(this).val();
-
-            // alert('Song Du')
-        })
-    </Script>
 </body>
 
 </html>
