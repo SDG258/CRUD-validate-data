@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties": {
+        "store_id": {
+            "type": "integer"
+        },
+        "first_name": {
+            "type": "string"
+        },
+        "last_name": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "address_id": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "first_name", "last_name", "store_id", "email", "address_id"
+    ],
+    "additionalProperties": true
+}
